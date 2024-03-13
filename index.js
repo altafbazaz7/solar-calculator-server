@@ -33,10 +33,8 @@ mongoose
   });
 
 
-////////////  MIDDLEWARES ///////////
 app.use(bodyParser.json());
 app.use("/", appRouter);
-/////////////////////////////////////
 
 
 
