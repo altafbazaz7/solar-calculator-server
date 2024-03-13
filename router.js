@@ -4,7 +4,7 @@ import { createCalculationHandler, getCalculationHandler } from "./calculationCo
 const appRouter = express.Router();
 
 appRouter.post(`/create`, createCalculationHandler);
-appRouter.get(`/`, getCalculationHandler);
+appRouter.get(`/get`, getCalculationHandler);
 
 
 
