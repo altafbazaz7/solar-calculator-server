@@ -9,9 +9,16 @@ export const createCalculationHandler = async (req, res) => {
         const capitalNeeded = panelsNeeded * 60000 * 0.5; 
         const breakevenYears = Math.ceil(capitalNeeded / (averageBill * 12));
         const next25YearsEarnings = (25 - breakevenYears) * (averageBill * 12);
-
-        const lead = new Lead({ phoneNumber });
-        await lead.save(); 
+      
+        let reqObj = {
+            panelsNeeded,
+            requiredArea,
+            capitalNeeded,
+            breakevenYears,
+            next25YearsEarnings
+        }
+        const lead = new Lead(reqObj);
+        await lead.save();
 
         res.json({
             panelsNeeded,
@@ -29,20 +36,13 @@ export const createCalculationHandler = async (req, res) => {
 export const getCalculationHandler = async (req, res) => {
     try {
         const leads = await Lead.find();
-
         if (!leads || leads.length === 0) {
             return res.status(404).json({ message: "No calculations found" });
         }
 
-        const calculations = leads.map(lead => ({
-            panelsNeeded: lead.panelsNeeded,
-            requiredArea: lead.requiredArea,
-            capitalNeeded: lead.capitalNeeded,
-            breakevenYears: lead.breakevenYears,
-            next25YearsEarnings: lead.next25YearsEarnings
-        }));
+  
 
-        res.status(200).json(calculations);
+        res.status(200).json(leads);
     } catch (error) {
         console.error('Error fetching calculations:', error);
         res.status(500).json({ message: "Internal Server Error" });
