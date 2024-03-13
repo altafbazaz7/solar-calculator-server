@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import appRouter from "./router.js";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 
@@ -32,11 +33,9 @@ mongoose
     console.error("Error connecting to MongoDB:", error);
   });
 
-
+app.use(cors()); 
 app.use(bodyParser.json());
 app.use("/", appRouter);
-
-
 
 app.get("/", (req, res) => {
   res.send("endpoint testing !!!");
